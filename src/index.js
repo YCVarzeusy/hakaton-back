@@ -18,8 +18,7 @@ app.use(cors({
 app.use(cookieParser());
 
 //init
-require("dotenv").config({ path: "src/environment/.env" });
-// require("./database");
+require("dotenv").config({ path: "src/environment/.env.local" });
 
 //routes
 app.use(express.json());
