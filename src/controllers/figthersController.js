@@ -4,8 +4,15 @@ const listFighters = async (req, res) => {
     try {
         const supabase = createClient({ req, res });
         const result = await supabase.from("fighter")
-            .select(`*`).eq("state", true)
-            .order("id",{ascending:false});
+            .select(`*,
+                level (
+                    power,
+                    technique_id
+                )
+            `).eq("state", true)
+            .order("id",{ascending:false})
+            .filter('level.state', 'eq', true);
+
         res.send(JSON.stringify(result));
 
     } catch (error) {

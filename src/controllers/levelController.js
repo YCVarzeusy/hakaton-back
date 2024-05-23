@@ -25,6 +25,14 @@ const insertLevelToFighter = async (req, res) => {
     const id = req.params.id
     try {
         const supabase = createClient({ req, res });
+
+        await supabase.from("level")
+            .update({
+                state: false,
+            }).eq("fighter_id", id)
+            .eq("technique_id", req.body.technique_id)
+            .eq("state", true);
+
         const result = await supabase.from("level")
             .insert({
                 fighter_id: id,

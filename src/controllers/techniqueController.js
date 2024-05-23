@@ -6,7 +6,7 @@ const listTechinique = async (req, res) => {
         const supabase = createClient({ req, res });
         const result = await supabase.from("technique_list")
             .select(`*`)
-            .order("id",{ascending:false});
+            .order("id",{ascending:true});
         res.send(JSON.stringify(result));
     } catch (error) {
         console.error('Error signing in: ', error);
