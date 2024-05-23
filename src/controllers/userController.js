@@ -3,7 +3,6 @@ const { createClient } = require("../lib/supabase")
 const signin = async (req, res) => {
     const { email, password } = req.body;
     try {
-        console.log('---------------------------------email: ', email);
         const supabase = createClient({ req, res });
         const result = await supabase.auth.signInWithPassword({
             email: email,
@@ -18,16 +17,33 @@ const signin = async (req, res) => {
 }
 
 
-
-const profile = async (req, res) => {
+const readUserSession = async (req, res) => {
     try {
         const supabase = createClient({ req, res });
-        const user = supabase.auth.user();
-        res.send(JSON.stringify(user));
+        const session = await supabase.auth.getSession();
+        res.send(JSON.stringify(session));
     } catch (error) {
         console.error('Error getting profile: ', error);
         res.status(500).send('Internal Server Error');
     }
 }
 
-module.exports = { signin };
+
+const LogOutSession = async (req, res) => {
+    try {
+        const supabase = createClient({ req, res });
+        const session = await supabase.auth.getSession();
+        await supabase.auth.refreshSession();
+        await supabase.auth.admin.signOut(session.data.session?.access_token,"local");
+        res.susccess("Sesion cerrada");
+    } catch (error) {
+        console.error('Error getting profile: ', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+module.exports = { 
+    signin,
+    readUserSession,
+    LogOutSession
+};

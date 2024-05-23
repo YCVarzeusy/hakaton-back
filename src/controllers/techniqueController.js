@@ -6,7 +6,6 @@ const listTechinique = async (req, res) => {
         const supabase = createClient({ req, res });
         const result = await supabase.from("technique_list")
             .select(`*`)
-            .eq("state", true)
             .order("id",{ascending:false});
         res.send(JSON.stringify(result));
     } catch (error) {
