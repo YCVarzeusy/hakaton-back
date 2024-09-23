@@ -67,11 +67,24 @@ const updateLevelToFighter = async (req, res) => {
 }
 
 
+const categoryList = async (req, res) => {
+    try {
+        const supabase = createClient({ req, res });
+        const result = await supabase.from("get_category_with_level_count")
+        .select(`*`).order("id",{ascending:true});
+        res.send(JSON.stringify(result));
+
+    } catch (error) {
+        console.error('Error signing in: ', error);
+        res.status(500).send('Internal Server Error');
+    }
+}
 
 
 
 module.exports = { 
     listLevelByIdFighter,
     insertLevelToFighter,
-    updateLevelToFighter
+    updateLevelToFighter,
+    categoryList
 };
