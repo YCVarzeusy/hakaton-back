@@ -7,19 +7,21 @@ const cookieParser = require('cookie-parser');
 
 //cors
 const whitelist = [
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "https://hakatonfrontend-pqkjvg0q7-arzeusys-projects.vercel.app/"
 ];
 
 
 app.use(cors({
     origin: whitelist,
     credentials: true,
-  }));
+    exposedHeaders: "*",
+}));
 app.use(cookieParser());
+app.options('*', cors());
 
 //init
-require("dotenv").config({ path: "src/environment/.env" });
-// require("./database");
+require("dotenv").config({ path: "src/environment/.env.local" });
 
 //routes
 app.use(express.json());
